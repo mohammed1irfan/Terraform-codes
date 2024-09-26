@@ -6,7 +6,7 @@ resource "azurerm_firewall" "firewall" {
   location            = each.value.location
   sku_name            = each.value.sku_name
   sku_tier            = each.value.sku_tier
-  firewall_policy_id  = var.use_firewall_policy ? var.firewall_policy_id : null                 # Use the firewall policy only if the use_firewall_policy variable is true
+  firewall_policy_id  = var.use_firewall_policy ? var.firewall_policy_id : null # Use the firewall policy only if the use_firewall_policy variable is true
   threat_intel_mode   = each.value.sku_name == "AZFW_VNet" ? each.value.threat_intel_mode : null
   zones               = each.value.zones
   private_ip_ranges   = each.value.private_ip_ranges
@@ -41,7 +41,7 @@ resource "azurerm_firewall_application_rule_collection" "firewall-rule" {
   for_each = var.use_firewall_policy ? {} : var.application_rule_collection
 
   name                = each.value.name
-  azure_firewall_name = try(azurerm_firewall.firewall[each.key].name, each.value.azure_firewall_name) 
+  azure_firewall_name = try(azurerm_firewall.firewall[each.key].name, each.value.azure_firewall_name)
   resource_group_name = each.value.resource_group_name
   priority            = each.value.priority
   action              = each.value.action
@@ -72,7 +72,7 @@ resource "azurerm_firewall_nat_rule_collection" "nat_rule_collection" {
   for_each = var.use_firewall_policy ? {} : var.firewall_nat_rule_collection
 
   name                = each.value.name
-  azure_firewall_name = try(azurerm_firewall.firewall[each.key].name, each.value.azure_firewall_name) 
+  azure_firewall_name = try(azurerm_firewall.firewall[each.key].name, each.value.azure_firewall_name)
   resource_group_name = each.value.resource_group_name
   priority            = each.value.priority
   action              = each.value.action
@@ -98,7 +98,7 @@ resource "azurerm_firewall_network_rule_collection" "network_collection" {
   for_each = var.use_firewall_policy ? {} : var.network_rule_collection
 
   name                = each.value.name
-  azure_firewall_name = try(azurerm_firewall.firewall[each.key].name, each.value.azure_firewall_name) 
+  azure_firewall_name = try(azurerm_firewall.firewall[each.key].name, each.value.azure_firewall_name)
   resource_group_name = each.value.resource_group_name
   priority            = each.value.priority
   action              = each.value.action
@@ -114,7 +114,7 @@ resource "azurerm_firewall_network_rule_collection" "network_collection" {
       destination_ports     = rule.value.destination_ports
       destination_addresses = rule.value.destination_addresses
       destination_ip_groups = try(rule.value.destination_ip_groups, [])
-      destination_fqdns     = try(rule.value.destination_fqdns, [])                # both IP address and fqdns are not supported
+      destination_fqdns     = try(rule.value.destination_fqdns, []) # both IP address and fqdns are not supported
       protocols             = rule.value.protocols
     }
   }

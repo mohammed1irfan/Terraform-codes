@@ -1,13 +1,13 @@
 module "firewall_policies" {
-  source = "../modules" 
+  source = "../modules"
 
   firewall_policies = {
     "policy1" = {
-      name                = "example-policy-1"
-      resource_group_name = "terra-test"
-      location            = "East US"
-      dns                 = { servers = ["10.0.0.2"] }
-      identity                          = { type = "UserAssigned" } 
+      name                              = "example-policy-1"
+      resource_group_name               = "terra-test"
+      location                          = "East US"
+      dns                               = { servers = ["10.0.0.2"] }
+      identity                          = { type = "UserAssigned" }
       auto_learn_private_ranges_enabled = true
       sku                               = "Premium"
       tags                              = { environment = "dev" }
@@ -26,9 +26,9 @@ module "firewall_policies" {
     },
   }
 
-################################################################
-############       Rule_collection Group    ####################
-################################################################
+  ################################################################
+  ############       Rule_collection Group    ####################
+  ################################################################
 
 
   firewall_policy_rule_collection_groups = {
@@ -64,10 +64,10 @@ module "firewall_policies" {
                   value = "Bearer token"
                 }
               ]
-              source_addresses = ["10.0.0.0/24"]
-              source_ip_groups      = ["group1", "group2"]   
+              source_addresses      = ["10.0.0.0/24"]
+              source_ip_groups      = ["group1", "group2"]
               destination_urls      = ["*.google.com"]
-              destination_fqdns     = ["google.com"]                    # Destination_urls and Destination_fqdns won't work together
+              destination_fqdns     = ["google.com"] # Destination_urls and Destination_fqdns won't work together
               destination_fqdn_tags = ["tag1", "tag2"]
               destination_addresses = ["192.168.1.1", "192.168.1.2"]
               terminate_tls         = true
@@ -88,9 +88,9 @@ module "firewall_policies" {
               source_addresses      = ["10.0.3.0/24"]
               destination_addresses = ["192.168.1.1", "192.168.1.2"]
               destination_ports     = ["80", "2000"]
-              source_ip_groups      = ["Source-group"]  
-              destination_ip_groups = ["group1", "group2"] 
-              destination_fqdns     = ["google.com"]                   #  network_rule_collection1_rule1 should have only one of destinationAddresses, destinationIpGroups or destinationFqdns
+              source_ip_groups      = ["Source-group"]
+              destination_ip_groups = ["group1", "group2"]
+              destination_fqdns     = ["google.com"] #  network_rule_collection1_rule1 should have only one of destinationAddresses, destinationIpGroups or destinationFqdns
             }
           ]
         }
@@ -102,16 +102,16 @@ module "firewall_policies" {
           action   = "Dnat"
           rules = [
             {
-              name             = "nat_rule_collection1_rule1"
-              description = " for nat rule"
-              protocols        = ["TCP", "UDP"]
-              source_addresses = ["10.0.1.0/24"]
-              source_ip_groups      = ["Source-group"] 
+              name                = "nat_rule_collection1_rule1"
+              description         = " for nat rule"
+              protocols           = ["TCP", "UDP"]
+              source_addresses    = ["10.0.1.0/24"]
+              source_ip_groups    = ["Source-group"]
               destination_address = "192.0.2.1"
               destination_ports   = ["8080"]
               translated_address  = "10.0.2.1"
-              translated_fqdn     = optional(string)               # only work if destination_address is not available
-              translated_port = "80"
+              translated_fqdn     = optional(string) # only work if destination_address is not available
+              translated_port     = "80"
             }
           ]
         }
@@ -119,9 +119,9 @@ module "firewall_policies" {
     }
   }
 
-##########################################################################
-#################        frontdoor_policy          #######################
-##########################################################################
+  ##########################################################################
+  #################        frontdoor_policy          #######################
+  ##########################################################################
   firewall_policies_front_door = {
     "front_door_policy1" = {
       name                              = "examplefdwafpolicy01"
@@ -199,9 +199,9 @@ module "firewall_policies" {
   }
 
 
-##########################################################
-########      web application firewall policy      #######
-##########################################################
+  ##########################################################
+  ########      web application firewall policy      #######
+  ##########################################################
 
   web_application_firewall_policies = {
     waf_policy_1 = {

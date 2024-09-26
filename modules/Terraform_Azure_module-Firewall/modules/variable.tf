@@ -32,13 +32,13 @@ variable "create_firewalls" {
     condition = alltrue([
       alltrue([for fw in var.create_firewalls : contains(["AZFW_Hub", "AZFW_VNet"], fw.sku_name)]),
       alltrue([for fw in var.create_firewalls : contains(["Free", "Standard", "Premium"], fw.sku_tier)]),
-      
+
     ])
     error_message = "Invalid SKU configuration: sku_name must be one of 'AZFW_Hub' or 'AZFW_VNet', and sku_tier must be one of 'Free', 'Standard', or 'Premium'."
   }
   validation {
     condition = alltrue([
-    alltrue([for fw in var.create_firewalls : contains(["Off", "Alert", "Deny"], fw.threat_intel_mode)])
+      alltrue([for fw in var.create_firewalls : contains(["Off", "Alert", "Deny"], fw.threat_intel_mode)])
     ])
     error_message = "Invalidate threat_intel_mode: must be 'Off' or 'Alert' or 'Deny'. "
   }
@@ -103,10 +103,10 @@ variable "application_rule_collection" {
   }
   validation {
     condition = alltrue([
-      alltrue([for rule_collection in var.application_rule_collection : alltrue([for rule in rule_collection.rules : alltrue([for protocol in rule.protocols : contains(["Http", "Https", "Mssql"], protocol.type)  # Validate allowed protocol types
+      alltrue([for rule_collection in var.application_rule_collection : alltrue([for rule in rule_collection.rules : alltrue([for protocol in rule.protocols : contains(["Http", "Https", "Mssql"], protocol.type) # Validate allowed protocol types
       ])])]),
       alltrue([for rule_collection in var.application_rule_collection : alltrue([for rule in rule_collection.rules : alltrue([for protocol in rule.protocols : can(regex("^\\d{1,5}$", protocol.port)) || can(regex("^\\d{1,5}-\\d{1,5}$", protocol.port))])])]),
-      ])
+    ])
     error_message = "Invalid configuration: protocol type must be either 'Http', 'Https', 'Mssql', and port must be a valid number or port range (e.g., 80, 443, or 1000-2000)."
   }
 }
@@ -149,7 +149,7 @@ variable "firewall_nat_rule_collection" {
   validation {
     condition = alltrue([
       alltrue([for rule_collection in var.firewall_nat_rule_collection : alltrue([for rule in rule_collection.rules : alltrue([for protocol in rule.protocols : contains(["Any", "ICMP", "TCP", "UDP"], protocol)])])])
-      ])
+    ])
     error_message = "Invalid configuration: protocol type must be either 'TCP', 'UDP', 'Any', 'ICMP'."
   }
 }
@@ -191,7 +191,7 @@ variable "network_rule_collection" {
   validation {
     condition = alltrue([
       alltrue([for rule_collection in var.network_rule_collection : alltrue([for rule in rule_collection.rules : alltrue([for protocol in rule.protocols : contains(["Any", "ICMP", "TCP", "UDP"], protocol)])])])
-      ])
+    ])
     error_message = "Invalid configuration: protocol type must be either 'TCP', 'UDP', 'Any', 'ICMP'."
   }
 }

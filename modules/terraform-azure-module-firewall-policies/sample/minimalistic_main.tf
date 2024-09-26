@@ -6,14 +6,14 @@ module "firewall_policies" {
       name                = "example-policy-1"
       resource_group_name = "terra-test"
       location            = "East US"
-      sku                               = "Standard"
+      sku                 = "Standard"
     }
   }
   firewall_policy_rule_collection_groups {
     example1 = {
-      name                = "example-fwpolicy-rcg1"
-      firewall_policy_id  = module.firewall_policies.firewall_policy_id["policy1"]
-      priority            = 500
+      name               = "example-fwpolicy-rcg1"
+      firewall_policy_id = module.firewall_policies.firewall_policy_id["policy1"]
+      priority           = 500
       application_rule_collections = [
         {
           name     = "app_rule_collection1"
@@ -22,7 +22,7 @@ module "firewall_policies" {
           rules = [
             {
               name = "app_rule_collection1_rule1"
-              protocols =  [
+              protocols = [
                 {
                   type = "Http"
                   port = "80"
@@ -43,9 +43,9 @@ module "firewall_policies" {
           action   = "Allow"
           rules = [
             {
-              name                  = "network_rule_collection1_rule1"
-              protocols             = ["TCP", "UDP"]
-              destination_ports     = ["80", "2000"]
+              name              = "network_rule_collection1_rule1"
+              protocols         = ["TCP", "UDP"]
+              destination_ports = ["80", "2000"]
             }
           ]
         }
@@ -57,8 +57,8 @@ module "firewall_policies" {
           action   = "Dnat"
           rules = [
             {
-              name                = "nat_rule_collection1_rule1"
-              protocols           = ["TCP", "UDP"]
+              name      = "nat_rule_collection1_rule1"
+              protocols = ["TCP", "UDP"]
             }
           ]
         }
@@ -71,9 +71,9 @@ module "firewall_policies" {
       resource_group_name = "terra-test"
       custom_rules = [
         {
-          name                           = "Rule1"
-          type                           = "MatchRule"
-          action                         = "Block"
+          name   = "Rule1"
+          type   = "MatchRule"
+          action = "Block"
         }
       ]
     }
@@ -86,11 +86,13 @@ module "firewall_policies" {
       location            = "East US"
     }
   }
-     managed_rules = [
+  managed_rules = [
+    {
       managed_rule_set = {
-            type    = "OWASP"
-            version = "3.2"
+        type    = "OWASP"
+        version = "3.2"
       }
-     ]
+    }
+  ]
 }
 

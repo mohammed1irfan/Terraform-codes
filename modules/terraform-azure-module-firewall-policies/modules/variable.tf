@@ -64,16 +64,16 @@ variable "firewall_policies" {
       pac_file        = optional(string)
     }))
   }))
-    validation {
+  validation {
     condition = alltrue([
       alltrue([for fw in var.firewall_policies : contains(["Free", "Standard", "Premium"], fw.sku)])
-      
+
     ])
     error_message = "Invalid SKU configuration: sku must be one of 'Free', 'Standard', or 'Premium'."
   }
-    validation {
+  validation {
     condition = alltrue([
-    alltrue([for fw in var.firewall_policies : contains(["Off", "Alert", "Deny"], fw.threat_intelligence_mode)])
+      alltrue([for fw in var.firewall_policies : contains(["Off", "Alert", "Deny"], fw.threat_intelligence_mode)])
     ])
     error_message = "Invalidate tthreat_intelligence_mode: must be 'Off' or 'Alert' or 'Deny'. "
   }
@@ -132,8 +132,8 @@ variable "firewall_policy_rule_collection_groups" {
       priority = number
       action   = string
       rules = list(object({
-        name = string
-        description = optional(string)
+        name                = string
+        description         = optional(string)
         protocols           = list(string)
         source_addresses    = optional(list(string))
         source_ip_groups    = optional(list(string))
@@ -151,8 +151,8 @@ variable "firewall_policy_rule_collection_groups" {
       alltrue([for group in var.firewall_policy_rule_collection_groups : alltrue([for collection in group.application_rule_collections : collection.priority >= 100 && collection.priority <= 65000])]),
       alltrue([for group in var.firewall_policy_rule_collection_groups : alltrue([for collection in group.network_rule_collections : collection.priority >= 100 && collection.priority <= 65000])]),
       alltrue([for group in var.firewall_policy_rule_collection_groups : alltrue([for collection in group.nat_rule_collections : collection.priority >= 100 && collection.priority <= 65000])])
-    
-      ])
+
+    ])
     error_message = " Invalid priority: must be between 100 to 65000. "
   }
   validation {
@@ -237,7 +237,7 @@ variable "firewall_policies_front_door" {
   }))
   validation {
     condition = alltrue([
-    alltrue([for fw in var.firewall_policies_front_door : contains(["Detection", "Prevention"], fw.mode)])
+      alltrue([for fw in var.firewall_policies_front_door : contains(["Detection", "Prevention"], fw.mode)])
     ])
     error_message = "Invalidate mode: must be 'Detection' or 'Prevention'. "
   }

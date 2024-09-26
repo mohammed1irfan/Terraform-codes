@@ -9,10 +9,10 @@ module "Azure_firewall" {
       sku_name            = "AZFW_VNet"
       sku_tier            = "Standard"
       firewall_policy_id  = "/subscriptions/23615ce4-ba17-4a79-8be5-0313e1d540b4/resourceGroups/terra-test/providers/Microsoft.Network/firewallPolicies/terra-policy"
-      threat_intel_mode   = "Alert" 
-      dns_servers = ["198.168.0.1", "myserver"]
-      dns_proxy_enabled = true
-      zones = ["1"]
+      threat_intel_mode   = "Alert"
+      dns_servers         = ["198.168.0.1", "myserver"]
+      dns_proxy_enabled   = true
+      zones               = ["1"]
       tags = {
         environment = "production"
       }
@@ -41,7 +41,7 @@ module "Azure_firewall" {
         environment = "production"
       }
     },
-    
+
   }
 
   # Combine all application rule collections into one block
@@ -61,8 +61,8 @@ module "Azure_firewall" {
           description      = "application_rule_collection for firewall"
           source_addresses = ["*"]
           target_fqdns     = ["*.microsoft.com"]
-          fqdn_tags        = ["AppService"]                # Firewall Application Rules: `fqdn_tags` cannot be used with `target_fqdns` or `protocol`
-          source_ip_groups = ["source-group-1"] 
+          fqdn_tags        = ["AppService"] # Firewall Application Rules: `fqdn_tags` cannot be used with `target_fqdns` or `protocol`
+          source_ip_groups = ["source-group-1"]
           protocols = [
             {
               port = "443"
@@ -85,14 +85,14 @@ module "Azure_firewall" {
       rules = [
         {
           name                  = "rule1"
-          description      = "nat_rule_collection for firewall"
+          description           = "nat_rule_collection for firewall"
           source_addresses      = ["10.0.0.0/16"]
           destination_ports     = ["53"]
           destination_addresses = ["20.242.230.95"]
           translated_port       = 53
           translated_address    = "8.8.8.8"
           protocols             = ["TCP", "UDP"]
-          source_ip_groups = ["source-group-1"] 
+          source_ip_groups      = ["source-group-1"]
         }
       ]
     },
@@ -108,7 +108,7 @@ module "Azure_firewall" {
       rules = [
         {
           name                  = "rule1"
-          description      = "network_rule_collection for firewall"
+          description           = "network_rule_collection for firewall"
           source_addresses      = ["10.0.0.0/16"]
           destination_ports     = ["53"]
           destination_addresses = ["8.8.8.8", "8.8.4.4"]
@@ -120,9 +120,9 @@ module "Azure_firewall" {
           destination_ports     = ["443"]
           destination_addresses = ["1.1.1.1"]
           protocols             = ["TCP"]
-          source_ip_groups = ["source-group-1"] 
-          destination_ip_groups =["20.242.230.95"] 
-          destination_fqdns = ["*.google.com"]                     #  destination IP addresses and FQDNs both cannot be specified
+          source_ip_groups      = ["source-group-1"]
+          destination_ip_groups = ["20.242.230.95"]
+          destination_fqdns     = ["*.google.com"] #  destination IP addresses and FQDNs both cannot be specified
         }
       ]
     },

@@ -13,7 +13,7 @@ resource "azurerm_firewall_policy" "firewall_policies" {
     for_each = lookup(each.value, "dns", null) != null ? [each.value.dns] : []
     content {
       servers       = dns.value.servers
-      proxy_enabled = dns.value.proxy_enabled 
+      proxy_enabled = dns.value.proxy_enabled
     }
   }
 
@@ -22,7 +22,7 @@ resource "azurerm_firewall_policy" "firewall_policies" {
     for_each = lookup(each.value, "identity", null) != null ? [each.value.identity] : []
     content {
       type         = identity.value.type
-      identity_ids = identity.value.identity_ids 
+      identity_ids = identity.value.identity_ids
     }
   }
 
@@ -120,7 +120,7 @@ resource "azurerm_firewall_policy" "firewall_policies" {
 resource "azurerm_firewall_policy_rule_collection_group" "rule_collection_group" {
   for_each = var.firewall_policy_rule_collection_groups
 
-  name = each.value.name
+  name               = each.value.name
   firewall_policy_id = each.value.firewall_policy_id
   priority           = each.value.priority
 
@@ -197,7 +197,7 @@ resource "azurerm_firewall_policy_rule_collection_group" "rule_collection_group"
       dynamic "rule" {
         for_each = nat_rule_collection.value.rules
         content {
-          name = rule.value.name
+          name                = rule.value.name
           description         = rule.value.description
           protocols           = rule.value.protocols
           source_addresses    = rule.value.source_addresses
